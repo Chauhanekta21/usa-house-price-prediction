@@ -31,7 +31,7 @@ def apply_styles() -> None:
         <style>
         :root {
             --ivory: #f8f6f0;
-            --beige: #eee8dc;
+            --result-background: #e7eee6;
             --sage: #718675;
             --sage-dark: #526957;
             --charcoal: #28332e;
@@ -43,7 +43,7 @@ def apply_styles() -> None:
             font-family: "Segoe UI", "Helvetica Neue", sans-serif;
         }
         [data-testid="stSidebar"] {
-            background: var(--beige);
+            background: var(--result-background);
             border-right: 1px solid #e1dacd;
             color: var(--charcoal);
         }
@@ -155,7 +155,7 @@ def apply_styles() -> None:
             margin-bottom: 0.5rem;
         }
         .intro-card {
-            background: var(--beige);
+            background: var(--result-background);
             border: 1px solid #e4ddcf;
             border-radius: 22px;
             padding: clamp(1.5rem, 5vw, 3.5rem);
@@ -217,7 +217,7 @@ def apply_styles() -> None:
             color: #fff !important;
         }
         .result-card {
-            background: #e7eee6;
+            background: var(--result-background);
             border: 1px solid #d5e0d4;
             border-radius: 18px;
             padding: 1.5rem 1.7rem;
