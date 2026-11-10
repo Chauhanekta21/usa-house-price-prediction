@@ -156,6 +156,9 @@ def apply_styles() -> None:
         .st-key-dataset_preview_heading h3 {
             color: var(--sage-dark);
         }
+        .st-key-dataset_preview_heading {
+            margin-top: 1.5rem;
+        }
         .st-key-model_performance_heading h3,
         .st-key-model_limitations_heading h3 {
             color: var(--sage-dark);
@@ -163,6 +166,10 @@ def apply_styles() -> None:
         .st-key-model_performance_heading,
         .st-key-model_limitations_heading {
             margin-top: 0.5rem;
+            padding-top: 0;
+        }
+        [data-testid="stHorizontalBlock"]:has(.model-metric-card) {
+            margin-bottom: 1.5rem;
         }
         .stApp p,
         .stApp label,
@@ -194,7 +201,8 @@ def apply_styles() -> None:
             line-height: 1.7;
         }
         .disclaimer-card {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
+            padding-block: 1rem;
             line-height: 1.7;
         }
         .feature-card {
@@ -245,6 +253,10 @@ def apply_styles() -> None:
         .model-metric-card {
             padding-bottom: 0.8rem;
         }
+        .limitation-card {
+            height: 8rem;
+            padding-bottom: 0.5rem;
+        }
         .model-metric-label {
             color: var(--muted);
             font-size: 0.84rem;
@@ -265,6 +277,10 @@ def apply_styles() -> None:
             font-size: 0.9rem;
             line-height: 1.55;
             margin: 0;
+        }
+        .model-metric-card .model-metric-description {
+            color: var(--muted);
+            font-size: 0.9rem;
         }
         .limitation-card strong {
             color: var(--charcoal);
