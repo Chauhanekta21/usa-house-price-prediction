@@ -8,6 +8,7 @@ import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = PROJECT_ROOT / "models" / "usa_house_price_prediction_model.pkl"
+TRAINING_DATA_PATH = PROJECT_ROOT / "data" / "usa_housing.csv"
 FEATURE_NAMES = [
     "Avg. Area Income",
     "Avg. Area House Age",
@@ -15,6 +16,22 @@ FEATURE_NAMES = [
     "Avg. Area Number of Bedrooms",
     "Area Population",
 ]
+
+
+@st.cache_data
+def get_feature_outlier_bounds() -> dict[str, tuple[float, float]]:
+    training_data = pd.read_csv(TRAINING_DATA_PATH)
+    quartiles = training_data[FEATURE_NAMES].quantile([0.25, 0.75])
+    bounds = {}
+    for feature in FEATURE_NAMES:
+        lower_quartile = quartiles.loc[0.25, feature]
+        upper_quartile = quartiles.loc[0.75, feature]
+        interquartile_range = upper_quartile - lower_quartile
+        bounds[feature] = (
+            float(lower_quartile - 1.5 * interquartile_range),
+            float(upper_quartile + 1.5 * interquartile_range),
+        )
+    return bounds
 
 
 st.set_page_config(
@@ -237,6 +254,24 @@ def apply_styles() -> None:
             letter-spacing: -0.04em;
             margin: 0.35rem 0;
         }
+        .st-key-negative_prediction_warning [data-testid="stAlert"] {
+            background: #fff1cc !important;
+            border: 1px solid #ead9ad !important;
+            border-radius: 12px !important;
+            color: #1f1708 !important;
+            color-scheme: light;
+        }
+        .st-key-negative_prediction_warning [data-testid="stAlert"] * {
+            background-color: transparent !important;
+            color: #1f1708 !important;
+            -webkit-text-fill-color: #1f1708 !important;
+            opacity: 1 !important;
+        }
+        .st-key-negative_prediction_warning [data-testid="stAlert"] svg {
+            color: #704600 !important;
+            fill: #704600 !important;
+            -webkit-text-fill-color: #704600 !important;
+        }
         @media (max-width: 640px) {
             [data-testid="stForm"] { padding: 1rem; }
         }
@@ -352,6 +387,41 @@ def show_prediction(model) -> None:
     predicted_price = float(model.predict(input_data)[0])
     if not math.isfinite(predicted_price):
         st.error("The model could not produce a valid estimate for these inputs.")
+        return
+    if predicted_price < 0:
+        outlier_bounds = get_feature_outlier_bounds()
+        unusual_values = []
+        for feature, value in zip(FEATURE_NAMES, values):
+            lower_bound, upper_bound = outlier_bounds[feature]
+            if value < lower_bound:
+                unusual_values.append(
+                    f"- **{feature}**: {value:,.2f} (unusually low; below "
+                    f"{lower_bound:,.2f})"
+                )
+            elif value > upper_bound:
+                unusual_values.append(
+                    f"- **{feature}**: {value:,.2f} (unusually high; above "
+                    f"{upper_bound:,.2f})"
+                )
+
+        warning = (
+            "This input combination is outside the model's reliable prediction "
+            "range. Please try different input values."
+        )
+        if unusual_values:
+            warning += (
+                "\n\nUnusual values based on the training dataset's 1.5×IQR "
+                "bounds:\n\n"
+                + "\n".join(unusual_values)
+            )
+        else:
+            warning += (
+                "\n\nNo individual input is unusually low or high based on the "
+                "training dataset's 1.5×IQR bounds; the combination itself may "
+                "still be outside the model's reliable prediction range."
+            )
+        with st.container(key="negative_prediction_warning"):
+            st.warning(warning)
         return
 
     st.markdown(
