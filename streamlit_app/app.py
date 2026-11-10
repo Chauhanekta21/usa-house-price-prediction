@@ -34,6 +34,11 @@ def get_feature_outlier_bounds() -> dict[str, tuple[float, float]]:
     return bounds
 
 
+@st.cache_data
+def load_training_data() -> pd.DataFrame:
+    return pd.read_csv(TRAINING_DATA_PATH)
+
+
 st.set_page_config(
     page_title="USA Housing Price Prediction",
     page_icon="⌂",
@@ -64,6 +69,9 @@ def apply_styles() -> None:
             border-right: 1px solid #e1dacd;
             color: var(--charcoal);
         }
+        [data-testid="stSidebar"] [data-testid="stSidebarUserContent"] {
+            padding: 1.5rem 1rem;
+        }
         [data-testid="stSidebar"] h1,
         [data-testid="stSidebar"] h2,
         [data-testid="stSidebar"] h3,
@@ -73,89 +81,88 @@ def apply_styles() -> None:
             color: var(--charcoal) !important;
             font-family: "Segoe UI", "Helvetica Neue", sans-serif;
         }
+        .sidebar-brand {
+            margin: 0.25rem 0 2rem;
+        }
+        .sidebar-brand-title {
+            color: var(--sage-dark);
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.25;
+        }
+        .sidebar-brand-subtitle {
+            color: var(--muted);
+            font-size: 0.86rem;
+            line-height: 1.45;
+            margin-top: 0.35rem;
+            max-width: 15rem;
+        }
         [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] {
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.28) !important;
+            border: 1px solid color-mix(in srgb, var(--sage-dark) 28%, var(--result-background)) !important;
+            border-radius: 9px;
+            box-sizing: border-box;
             color: var(--charcoal) !important;
-            padding: 0.45rem 0.65rem;
-            transition: background-color 120ms ease, border-color 120ms ease;
+            display: flex;
+            align-items: center;
+            width: 100% !important;
+            min-width: 100% !important;
+            max-width: 100% !important;
+            height: 2.9rem;
+            min-height: 2.9rem;
+            margin: 0.18rem 0;
+            padding: 0.55rem 0.8rem;
+            transition: background-color 140ms ease, border-color 140ms ease;
+        }
+        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
+            display: none !important;
         }
         #root [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]
         > div:last-child [data-testid="stMarkdownContainer"] p {
-            color: #28332e !important;
-            font-size: 0.96rem;
+            color: var(--charcoal) !important;
+            font-size: 0.94rem;
             font-weight: 550;
-        }
-        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child {
-            background: transparent !important;
-            border: 2px solid var(--sage) !important;
-            border-radius: 50%;
-            box-sizing: border-box;
-            width: 0.55rem !important;
-            height: 0.55rem !important;
-            min-width: 0.55rem !important;
-            min-height: 0.55rem !important;
-            flex: 0 0 0.55rem;
-            margin-right: 0.2rem;
-            align-items: center;
-            justify-content: center;
-            transition: none !important;
-            transform: none !important;
-        }
-        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"] > div:first-child > div:first-child {
-            width: 0.18rem !important;
-            height: 0.18rem !important;
-            min-width: 0.18rem !important;
-            min-height: 0.18rem !important;
-            border-radius: 50%;
-            background: #28332e !important;
-            border-color: #28332e !important;
-            transition: none !important;
-            transform: none !important;
-        }
-        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:has(input[type="radio"]:checked)
-        > div:first-child > div:first-child {
-            background: #fff !important;
-            border-color: #fff !important;
-        }
-        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:hover > div:first-child,
-        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:hover > div:first-child > div:first-child {
-            transition: none !important;
-            transform: none !important;
+            line-height: 1.4;
+            margin: 0;
         }
         [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:hover {
-            background: #e2e8df;
-            border-color: #d3ddcf;
+            background: #e2e8df !important;
+            border-color: color-mix(in srgb, var(--sage-dark) 28%, var(--result-background)) !important;
             color: var(--charcoal) !important;
         }
         [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:has(input[type="radio"]:checked) {
-            background: var(--sage-dark);
-            border-color: var(--sage-dark);
-            color: #fff !important;
-        }
-        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:has(input[type="radio"]:checked)
-        > div:first-child {
-            background: var(--sage-dark) !important;
-            border-color: var(--sage-dark) !important;
-        }
-        [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:has(input[type="radio"]:checked)
-        > div:first-child > div:first-child {
-            background: #fff !important;
-            border-color: #fff !important;
+            background: rgba(255, 255, 255, 0.28) !important;
+            border-color: color-mix(in srgb, var(--sage-dark) 28%, var(--result-background)) !important;
+            color: var(--charcoal) !important;
         }
         #root [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:has(input[type="radio"]:checked)
         > div:last-child [data-testid="stMarkdownContainer"] p {
-            color: #fff !important;
-            font-weight: 650;
+            color: var(--charcoal) !important;
+            font-weight: 550;
         }
         [data-testid="stSidebar"] [data-testid="stRadio"] label[data-baseweb="radio"]:focus-within {
-            outline: 3px solid #879b88;
+            outline: 2px solid var(--sage);
             outline-offset: 2px;
         }
         h1, h2, h3 {
             color: var(--charcoal);
             letter-spacing: -0.025em;
+        }
+        .stApp [data-testid="stMain"] h1 {
+            color: var(--sage-dark);
+        }
+        .st-key-dataset_overview_heading h3,
+        .st-key-dataset_preview_heading h3 {
+            color: var(--sage-dark);
+        }
+        .st-key-model_performance_heading h3,
+        .st-key-model_limitations_heading h3 {
+            color: var(--sage-dark);
+        }
+        .st-key-model_performance_heading,
+        .st-key-model_limitations_heading {
+            margin-top: 0.5rem;
         }
         .stApp p,
         .stApp label,
@@ -180,6 +187,7 @@ def apply_styles() -> None:
         }
         .hero {
             margin: 0.5rem 0 1.5rem;
+            padding-block: clamp(1rem, 2.5vw, 1.75rem);
         }
         .hero p, .muted {
             color: var(--muted);
@@ -205,6 +213,64 @@ def apply_styles() -> None:
             color: var(--muted);
             font-size: 0.92rem;
             line-height: 1.5;
+        }
+        .dataset-metric {
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid #e4e9e0;
+            border-radius: 14px;
+            min-height: 88px;
+            padding: 1rem 1.1rem;
+        }
+        .dataset-metric-label {
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+        .dataset-metric-value {
+            color: var(--charcoal);
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-top: 0.35rem;
+        }
+        .model-metric-card,
+        .limitation-card {
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid #e4e9e0;
+            border-radius: 14px;
+            box-sizing: border-box;
+            height: 11rem;
+            padding: 1rem 1.1rem;
+        }
+        .model-metric-card {
+            padding-bottom: 0.8rem;
+        }
+        .model-metric-label {
+            color: var(--muted);
+            font-size: 0.84rem;
+            font-weight: 600;
+            line-height: 1.4;
+            min-height: 2.4em;
+        }
+        .model-metric-value {
+            color: var(--charcoal);
+            font-size: 1.3rem;
+            font-weight: 700;
+            line-height: 1.35;
+            margin: 0.35rem 0 0.5rem;
+        }
+        .model-metric-description,
+        .limitation-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.55;
+            margin: 0;
+        }
+        .limitation-card strong {
+            color: var(--charcoal);
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 0.35rem;
         }
         [data-testid="stForm"] {
             background: rgba(255, 255, 255, 0.72);
@@ -290,35 +356,41 @@ def show_home() -> None:
     st.markdown(
         """
         <section class="intro-card hero">
-            <div class="eyebrow">A data-informed home estimate</div>
-            <h1>USA Housing Price Prediction</h1>
+            <h1>USA House Price Predictor</h1>
             <p>
-                Explore an estimated house price from a few neighborhood and
-                property characteristics. Enter the five model inputs in the
-                prediction section to get started.
+                This project uses Linear Regression to predict house prices in the USA.
+                Predictions are based on five features: Average Area Income, Average
+                Area House Age, Average Number of Rooms, Average Number of Bedrooms,
+                and Area Population. Users can enter these details on the Price
+                Estimator page to receive a predicted house price.
             </p>
         </section>
         """,
         unsafe_allow_html=True,
     )
-    st.subheader("A simple way to explore an estimate")
-    st.markdown(
-        '<p class="muted">Use the navigation on the left to enter property details or learn about the model. '
-        "The result is a model estimate for educational use, not a professional appraisal.</p>",
-        unsafe_allow_html=True,
-    )
-    columns = st.columns(3)
-    cards = [
-        ("Five inputs", "Provide neighborhood income, house age, rooms, bedrooms, and population."),
-        ("Instant estimate", "Get a price estimate in US dollars from the saved model."),
-        ("Transparent approach", "See how the trained linear regression model is used."),
+    with st.container(key="dataset_overview_heading"):
+        st.subheader("Dataset Overview")
+    metrics = [
+        ("Total Records", "5,000"),
+        ("Input Features", "5"),
+        ("Prediction Target", "House Price"),
+        ("Dataset Location", "USA"),
     ]
-    for column, (title, description) in zip(columns, cards):
+    for column, (label, value) in zip(st.columns(4), metrics):
         with column:
             st.markdown(
-                f'<div class="feature-card"><strong>{title}</strong><span>{description}</span></div>',
+                f'<div class="dataset-metric"><div class="dataset-metric-label">{label}</div>'
+                f'<div class="dataset-metric-value">{value}</div></div>',
                 unsafe_allow_html=True,
             )
+    with st.container(key="dataset_preview_heading"):
+        st.subheader("Dataset Preview")
+    st.dataframe(
+        load_training_data().head(25),
+        height=520,
+        width="stretch",
+        hide_index=True,
+    )
 
 
 def show_prediction(model) -> None:
@@ -437,30 +509,81 @@ def show_prediction(model) -> None:
 
 
 def show_about() -> None:
-    st.markdown('<div class="eyebrow">How it works</div>', unsafe_allow_html=True)
-    st.title("About the Model")
     st.markdown(
         """
-        This application uses a previously trained **Linear Regression** model.
-        The model is loaded from the project’s `models` folder; it is not trained
-        again when the app runs. Model training and evaluation were carried out
-        separately in the project’s Jupyter Notebook.
-        """
+        <section class="intro-card hero">
+            <h1>About the Model</h1>
+            <p>
+                This project uses a previously trained Linear Regression model to estimate
+                house prices in the USA based on five property and area-related details.
+                The model was trained and evaluated separately in the project's Jupyter
+                Notebook. The trained model is saved in the `models` folder and loaded by
+                the application whenever a user requests a prediction.
+            </p>
+        </section>
+        """,
+        unsafe_allow_html=True,
     )
-    st.subheader("Prediction inputs")
-    for feature in [
-        "Average Area Income",
-        "Average Area House Age",
-        "Average Number of Rooms",
-        "Average Number of Bedrooms",
-        "Area Population",
-    ]:
-        st.markdown(f"- {feature}")
+    with st.container(key="model_performance_heading"):
+        st.subheader("Model Performance")
+    metrics = [
+        (
+            "Prediction Accuracy (R² Score)",
+            "91.80%",
+            "Explains approximately 91.8% of price variation in the test data.",
+        ),
+        (
+            "Average Prediction Error (MAE)",
+            "$80,879.10",
+            "Predictions differ from actual prices by about $80,879 on average.",
+        ),
+        (
+            "Typical Prediction Error (RMSE)",
+            "$100,444.06",
+            "Gives more weight to larger prediction errors.",
+        ),
+        (
+            "Training Score",
+            "91.80%",
+            "Performance on the data used to train the model.",
+        ),
+    ]
+    for column, (label, value, description) in zip(st.columns(4), metrics):
+        with column:
+            st.markdown(
+                f'<div class="model-metric-card">'
+                f'<div class="model-metric-label">{label}</div>'
+                f'<div class="model-metric-value">{value}</div>'
+                f'<p class="model-metric-description">{description}</p>'
+                f"</div>",
+                unsafe_allow_html=True,
+            )
+
+    with st.container(key="model_limitations_heading"):
+        st.subheader("Model Limitations")
+    limitation_columns = st.columns(2)
+    limitations = [
+        (
+            "Unusual Inputs",
+            "Unusual combinations of otherwise valid inputs can sometimes produce unrealistic predictions.",
+        ),
+        (
+            "Negative Predictions",
+            "The model may predict a negative house price, which is not realistic and should be treated as an unreliable estimate.",
+        ),
+    ]
+    for column, (title, description) in zip(limitation_columns, limitations):
+        with column:
+            st.markdown(
+                f'<div class="limitation-card"><strong>{title}</strong>'
+                f"<p>{description}</p></div>",
+                unsafe_allow_html=True,
+            )
+
     st.markdown(
         """
         <div class="intro-card disclaimer-card">
-            This project is for educational exploration. Its estimates should not
-            be used as financial advice or a substitute for a professional appraisal.
+            This project is for educational exploration. Its estimates should not be used as financial advice or a substitute for a professional appraisal.
         </div>
         """,
         unsafe_allow_html=True,
@@ -471,19 +594,31 @@ def main() -> None:
     apply_styles()
 
     with st.sidebar:
-        st.markdown("## ⌂ Homewise")
-        st.caption("USA Housing Price Prediction")
+        st.markdown(
+            """
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-title">House Price Prediction</div>
+                <div class="sidebar-brand-subtitle">
+                    Predicting house prices using a Linear Regression model.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         page = st.radio(
             "Navigate",
-            ["Home", "Predict", "About the Model"],
+            [
+                ":material/dashboard: Overview",
+                ":material/query_stats: Price Estimator",
+                ":material/info: About the Model",
+            ],
             label_visibility="collapsed",
         )
-        st.divider()
 
-    if page == "Home":
+    if page.endswith("Overview"):
         show_home()
         return
-    if page == "About the Model":
+    if page.endswith("About the Model"):
         show_about()
         return
 
