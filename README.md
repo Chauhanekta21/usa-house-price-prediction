@@ -1,10 +1,10 @@
-# 📈 USA House Price Prediction
+# 📊 USA House Price Prediction
 
 > **Project Status: Completed**
 
 ---
 
-## 📊 Project Overview
+## 📈 Project Overview
 
 This project predicts house prices in the USA using Linear Regression. It uses five area and property features to estimate a home's price. The model achieved a test R² score of 91.80%, with an average absolute prediction error of about $80,879.
 
@@ -22,7 +22,7 @@ This project predicts house prices in the USA using Linear Regression. It uses f
 
 ---
 
-## 📊 View Project
+## 📈 View Project
 
 ### 🔹 **Live Interactive App**
 
@@ -48,7 +48,7 @@ This project predicts house prices in the USA using Linear Regression. It uses f
 
 ---
 
-## 📊 Project Workflow
+## 📈 Project Workflow
 
 ```
 USA Housing Dataset
@@ -76,7 +76,7 @@ House Price Prediction
 
 ---
 
-## 📊 Dataset Information
+## 📈 Dataset Information
 
 - The dataset contains:
 
@@ -95,7 +95,7 @@ House Price Prediction
 
 ---
 
-## 📊 Key Steps
+## 📈 Key Steps
 
 ### 🔹 Data Import
 
@@ -170,7 +170,7 @@ House Price Prediction
 
 ---
 
-## 📊 Tools and Libraries
+## 📈 Tools and Libraries
 
 - Python
 - Jupyter Notebook
@@ -185,7 +185,7 @@ House Price Prediction
 
 ---
 
-## 📊 Repository Structure
+## 📈 Repository Structure
 
 ```
 usa-house-price-prediction/
@@ -206,7 +206,7 @@ usa-house-price-prediction/
 
 ---
 
-## 📊 Skills Demonstrated
+## 📈 Skills Demonstrated
 
 - Data inspection and exploratory data analysis
 - Data visualization with Matplotlib and Seaborn
@@ -219,7 +219,7 @@ usa-house-price-prediction/
 
 ---
 
-## 📊 Author
+## 📈 Author
 
 **Ekta Singh Chauhan**
 
@@ -236,6 +236,6 @@ Focused on building projects in:
 
 ---
 
-## 📊 Disclaimer
+## 📈 Disclaimer
 
 This project is for educational exploration only. The estimates are based on patterns in this dataset and should not be used as financial advice or as a substitute for a professional property appraisal.
