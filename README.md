@@ -26,7 +26,7 @@ This project predicts house prices in the USA using Linear Regression. It uses f
 
 ### 🔹 **USA House Price Prediction App**
 
-- Enter the area details on the Price Estimator page, click **Predict Price**, and view the estimated house price.
+- Enter the area details on the Price Predictor page, click **Predict Price**, and view the estimated house price.
 
 - **Link:** No public Streamlit deployment URL is available in the repository. View the [Streamlit app source](https://github.com/Chauhanekta21/usa-house-price-prediction/blob/main/streamlit_app/app.py).
 

@@ -378,7 +378,7 @@ def show_home() -> None:
                 Predictions are based on five features: Average Area Income, Average
                 Area House Age, Average Number of Rooms, Average Number of Bedrooms,
                 and Area Population. Users can enter these details on the Price
-                Estimator page to receive a predicted house price.
+                Predictor page to receive a predicted house price.
             </p>
         </section>
         """,
@@ -625,7 +625,7 @@ def main() -> None:
             "Navigate",
             [
                 ":material/dashboard: Overview",
-                ":material/query_stats: Price Estimator",
+                ":material/query_stats: Price Predictor",
                 ":material/info: About the Model",
             ],
             label_visibility="collapsed",
