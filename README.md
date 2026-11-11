@@ -1,10 +1,10 @@
-# 📈 USA House Price Prediction
+# 📊 USA House Price Prediction
 
 > **Project Status: Completed**
 
 ---
 
-## 📊 Project Overview
+## 📈 Project Overview
 
 This project predicts house prices in the USA using Linear Regression. It uses five area and property features to estimate a home's price. The model achieved a test R² score of 91.80%, with an average absolute prediction error of about $80,879.
 
@@ -22,17 +22,18 @@ This project predicts house prices in the USA using Linear Regression. It uses f
 
 ---
 
-## 📊 View Project
+## 📈 View Project
 
-### 🔹 **USA House Price Prediction App**
+### 🔹 **Live Interactive App**
 
 - Enter the area details on the Price Predictor page, click **Predict Price**, and view the estimated house price.
 
-- **Link:** No public Streamlit deployment URL is available in the repository. View the [Streamlit app source](https://github.com/Chauhanekta21/usa-house-price-prediction/blob/main/streamlit_app/app.py).
+- **Link:** No public Streamlit deployment URL is available in the repository. View the [usa-house-price-predictor-streamlit-app](https://usa-house-price-predictor.streamlit.app/).
 
 - **App Preview**
 
-No app screenshot is currently included in the repository.
+![data](images/app.png)
+
 
 ### 🔹 **Jupyter Notebook**
 
@@ -42,39 +43,40 @@ No app screenshot is currently included in the repository.
 
 - **Jupyter Notebook Preview**
 
-No notebook screenshot is currently included in the repository.
+![data](images/jupyter.png)
+
 
 ---
 
-## 📊 Project Workflow
+## 📈 Project Workflow
 
 ```
 USA Housing Dataset
-     ↓
-Import the Data
-     ↓
-Inspect Columns, Data Types, Summary Statistics, and Duplicates
-     ↓
-Explore Distributions, Feature Relationships, and Correlations
-     ↓
-No Additional Data Cleaning or Transformation Needed
-     ↓
-Select Five Input Features and Separate the Price Target
-     ↓
-Split Data into Training and Testing Sets
-     ↓
-Train Linear Regression Model
-     ↓
-Evaluate Scores, Predictions, and Residuals
-     ↓
-Save the Model with Joblib
-     ↓
-Load the Model in the Streamlit App
+        ↓
+Data Loading and Inspection
+        ↓
+Exploratory Data Analysis (EDA)
+        ↓
+Data Quality Assessment
+        ↓
+Feature Selection and Target Separation
+        ↓
+Training and Testing Data Split
+        ↓
+Linear Regression Model Training
+        ↓
+Model Evaluation and Residual Analysis
+        ↓
+Model Serialization using Joblib
+        ↓
+Streamlit Application Integration
+        ↓
+House Price Prediction
 ```
 
 ---
 
-## 📊 Dataset Information
+## 📈 Dataset Information
 
 - The dataset contains:
 
@@ -88,15 +90,12 @@ Load the Model in the Streamlit App
 
 - **Dataset Preview:**
 
-| Avg. Area Income | Avg. Area House Age | Avg. Area Number of Rooms | Avg. Area Number of Bedrooms | Area Population | Price |
-|-----------------:|--------------------:|--------------------------:|-----------------------------:|----------------:|------:|
-| 79,545.46 | 5.68 | 7.01 | 4.09 | 23,086.80 | $1,059,033.56 |
-| 79,248.64 | 6.00 | 6.73 | 3.09 | 40,173.07 | $1,505,890.91 |
-| 61,287.07 | 5.87 | 8.51 | 5.13 | 36,882.16 | $1,058,987.99 |
+
+![data](images/dataset.png)
 
 ---
 
-## 📊 Key Steps
+## 📈 Key Steps
 
 ### 🔹 Data Import
 
@@ -171,7 +170,7 @@ Load the Model in the Streamlit App
 
 ---
 
-## 📊 Tools and Libraries
+## 📈 Tools and Libraries
 
 - Python
 - Jupyter Notebook
@@ -186,7 +185,7 @@ Load the Model in the Streamlit App
 
 ---
 
-## 📊 Repository Structure
+## 📈 Repository Structure
 
 ```
 usa-house-price-prediction/
@@ -201,12 +200,13 @@ usa-house-price-prediction/
 |   |   `-- app.cpython-314.pyc
 |   `-- app.py
 |-- .gitattributes
-`-- README.md
+|-- README.md
+`-- requirements.txt
 ```
 
 ---
 
-## 📊 Skills Demonstrated
+## 📈 Skills Demonstrated
 
 - Data inspection and exploratory data analysis
 - Data visualization with Matplotlib and Seaborn
@@ -219,7 +219,7 @@ usa-house-price-prediction/
 
 ---
 
-## 📊 Author
+## 📈 Author
 
 **Ekta Singh Chauhan**
 
@@ -236,6 +236,6 @@ Focused on building projects in:
 
 ---
 
-## 📊 Disclaimer
+## 📈 Disclaimer
 
 This project is for educational exploration only. The estimates are based on patterns in this dataset and should not be used as financial advice or as a substitute for a professional property appraisal.
