@@ -1,4 +1,4 @@
 joblib
 pandas
 scikit-learn
-streamlit
+streamlit==1.54.0
