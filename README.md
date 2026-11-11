@@ -182,6 +182,7 @@ Load the Model in the Streamlit App
 - Scikit-learn
 - Joblib
 - Streamlit
+- Streamlit Cloud installs the app dependencies from the root `requirements.txt`, including scikit-learn for loading the saved model.
 
 ---
 
