@@ -35,8 +35,13 @@ This project predicts house prices in the USA using Linear Regression. It uses f
 
 - **App Preview**
 
-![data](images/app.png)
+![data](images/app1.png)
 
+![data](images/app1.1.png)
+
+![data](images/app2.png)
+
+![data](images/app3.png)
 
 ### 🔹 **Jupyter Notebook**
 
