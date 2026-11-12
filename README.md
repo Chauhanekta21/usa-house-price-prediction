@@ -2,6 +2,9 @@
 
 > **Project Status: Completed**
 
+![data](images/thumbnail.png)
+
+
 ---
 
 ## 📈 Project Overview
